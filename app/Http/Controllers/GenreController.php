@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Author;
+use App\Genre;
 use Illuminate\Http\Request;
 
-
-class AuthorController extends Controller
+class GenreController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,8 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $authors = Author::all()->toArray();
-        return view('author.show',['authors' => $authors]);
+        $genres = Genre::all()->toArray();
+        return view('genre.show',['genres' => $genres]);
     }
 
     /**
@@ -27,7 +26,7 @@ class AuthorController extends Controller
     public function create()
     {
         //
-        return view('author.create');
+        return view('genre.create');
     }
 
     /**
@@ -41,18 +40,18 @@ class AuthorController extends Controller
         $this->validate($request, [
         'name' => 'required',
           ]);
-        $author = Author::create(['name'=>$request['name']]);
+        $genre = Genre::create(['name'=>$request['name']]);
         /*Event boradcast need*/
-        return redirect('author\all');
+        return redirect('genre\all');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Author  $author
+     * @param  \App\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function show(Author $author)
+    public function show(Genre $genre)
     {
         //
     }
@@ -60,42 +59,41 @@ class AuthorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Author  $author
+     * @param  \App\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function edit(Author $author)
+    public function edit(Genre $genre)
     {
-        return view('author.create',['author'=>$author->toArray()]);
+        return view('genre.create',['genre'=>$genre->toArray()]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Author  $author
+     * @param  \App\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Author $author)
+    public function update(Request $request, Genre $genre)
     {
         $this->validate($request, [
         'name' => 'required',
           ]);
-        $author = $author->update(['name'=>$request['name']]);
+        $genre = $genre->update(['name'=>$request['name']]);
        /*Event boradcast need*/
-        return redirect('author\all');
+        return redirect('genre\all');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Author  $author
+     * @param  \App\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Author $author)
+    public function destroy(Genre $genre)
     {
-        //
-        $author->delete();
+        $genre->delete();
         /*Event boradcast need*/
-        return redirect('author\all');
+        return redirect('genre\all');
     }
 }

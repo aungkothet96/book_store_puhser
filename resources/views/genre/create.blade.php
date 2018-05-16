@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-	@if(empty($author))
-	<form action="{{URL::to('author/store')}}" method="post">
+	@if(empty($genre))
+	<form action="{{URL::to('genre/store')}}" method="post">
 		{{ csrf_field() }}
 		<input type="text" name="name" placeholder="Enter Name">
 		@if($errors->has('name'))
@@ -14,9 +14,9 @@
 		<input type="submit" value="Save">
 	</form>
 	@else
-	<form action="{{URL::to('author/update/'.$author['id'])}}" method="post">
+	<form action="{{URL::to('genre/update/'.$genre['id'])}}" method="post">
 		{{ csrf_field() }}
-		<input type="text" name="name" placeholder="Enter Name" value="{{$author['name']}}">
+		<input type="text" name="name" placeholder="Enter Name" value="{{$genre['name']}}">
 		@if($errors->has('name'))
 			<span class="invalid-feedback">
 	            <strong>{{ $errors->first('name') }}</strong>

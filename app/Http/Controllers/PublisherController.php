@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Author;
+use App\Publisher;
 use Illuminate\Http\Request;
 
-
-class AuthorController extends Controller
+class PublisherController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $authors = Author::all()->toArray();
-        return view('author.show',['authors' => $authors]);
+        //
     }
 
     /**
@@ -27,7 +25,6 @@ class AuthorController extends Controller
     public function create()
     {
         //
-        return view('author.create');
     }
 
     /**
@@ -38,21 +35,16 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-        'name' => 'required',
-          ]);
-        $author = Author::create(['name'=>$request['name']]);
-        /*Event boradcast need*/
-        return redirect('author\all');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Author  $author
+     * @param  \App\Publisher  $publisher
      * @return \Illuminate\Http\Response
      */
-    public function show(Author $author)
+    public function show(Publisher $publisher)
     {
         //
     }
@@ -60,42 +52,34 @@ class AuthorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Author  $author
+     * @param  \App\Publisher  $publisher
      * @return \Illuminate\Http\Response
      */
-    public function edit(Author $author)
+    public function edit(Publisher $publisher)
     {
-        return view('author.create',['author'=>$author->toArray()]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Author  $author
+     * @param  \App\Publisher  $publisher
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Author $author)
+    public function update(Request $request, Publisher $publisher)
     {
-        $this->validate($request, [
-        'name' => 'required',
-          ]);
-        $author = $author->update(['name'=>$request['name']]);
-       /*Event boradcast need*/
-        return redirect('author\all');
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Author  $author
+     * @param  \App\Publisher  $publisher
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Author $author)
+    public function destroy(Publisher $publisher)
     {
         //
-        $author->delete();
-        /*Event boradcast need*/
-        return redirect('author\all');
     }
 }
