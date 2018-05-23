@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Publisher;
 use Illuminate\Http\Request;
+use App\Events\RefershPublisher;
 
 class PublisherController extends Controller
 {
@@ -14,7 +15,8 @@ class PublisherController extends Controller
      */
     public function index()
     {
-        //
+        $publishers = Publisher::latest()->get();
+        return view('publisher.show',['publishers' => $publishers]);
     }
 
     /**
@@ -25,6 +27,7 @@ class PublisherController extends Controller
     public function create()
     {
         //
+        return view('publisher.create');
     }
 
     /**
@@ -35,7 +38,13 @@ class PublisherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+        'name' => 'required',
+          ]);
+        $publisher = Publisher::create(['name'=>$request['name']]);
+        /*Event boradcast need*/
+        broadcast(new RefershPublisher())->toOthers();
+        return redirect('publisher\all');
     }
 
     /**
@@ -57,7 +66,7 @@ class PublisherController extends Controller
      */
     public function edit(Publisher $publisher)
     {
-        //
+        return view('publisher.create',['publisher'=>$publisher->toArray()]);
     }
 
     /**
@@ -69,7 +78,14 @@ class PublisherController extends Controller
      */
     public function update(Request $request, Publisher $publisher)
     {
-        //
+        $this->validate($request, [
+        'name' => 'required',
+          ]);
+        $publisher = $publisher->update(['name'=>$request['name']]);
+       /*Event boradcast need*/
+        broadcast(new RefershPublisher())->toOthers();
+
+        return redirect('publisher\all');
     }
 
     /**
@@ -81,5 +97,15 @@ class PublisherController extends Controller
     public function destroy(Publisher $publisher)
     {
         //
+        $publisher->delete();
+        /*Event boradcast need*/
+        broadcast(new RefershPublisher())->toOthers();
+        return redirect('publisher\all');
+    }
+
+    /*for api */
+    public function api_publisher_get_all()
+    {
+        return response()->json(Publisher::latest()->get());
     }
 }

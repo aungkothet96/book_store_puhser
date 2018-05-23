@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Genre;
 use Illuminate\Http\Request;
+use App\Events\RefershGenre;
 
 class GenreController extends Controller
 {
@@ -14,7 +15,7 @@ class GenreController extends Controller
      */
     public function index()
     {
-        $genres = Genre::all()->toArray();
+        $genres = Genre::latest()->get();
         return view('genre.show',['genres' => $genres]);
     }
 
@@ -42,6 +43,7 @@ class GenreController extends Controller
           ]);
         $genre = Genre::create(['name'=>$request['name']]);
         /*Event boradcast need*/
+        broadcast(new RefershGenre())->toOthers();
         return redirect('genre\all');
     }
 
@@ -81,6 +83,8 @@ class GenreController extends Controller
           ]);
         $genre = $genre->update(['name'=>$request['name']]);
        /*Event boradcast need*/
+        broadcast(new RefershGenre())->toOthers();
+
         return redirect('genre\all');
     }
 
@@ -92,8 +96,16 @@ class GenreController extends Controller
      */
     public function destroy(Genre $genre)
     {
+        //
         $genre->delete();
         /*Event boradcast need*/
+        broadcast(new RefershGenre())->toOthers();
         return redirect('genre\all');
+    }
+
+    /*for api */
+    public function api_genre_get_all()
+    {
+        return response()->json(Genre::latest()->get());
     }
 }

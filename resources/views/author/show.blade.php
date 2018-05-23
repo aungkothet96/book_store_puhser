@@ -13,12 +13,10 @@
        <br/>
 		<br/>
 	</div>
-
 </div>
 @endsection
 @section('scripts')
 	<script>
-		const app_url = "{{URL::to('/')}}";
         const app = new Vue({
             el:'#author_app',
             data:{

@@ -1,15 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" id="genre">
-	All genres<br/>
-	<a href="{{URL::to('genre/create')}}" >Create New Genre</a>
-	All Genres<br/>
-	<div v-for="genre in genres">
-		@{{genre.name}} &nbsp;
-		<a :href="'{{URL::to('/')}}/genre/edit/'+genre.id" >Edit </a>
+<div class="container" id="publisher">
+	<a href="{{URL::to('publisher/create')}}" >Create New Genre</a>
+	All Publishers<br/>
+	<div v-for="publisher in publishers">
+		@{{publisher.name}} &nbsp;
+		<a :href="'{{URL::to('/')}}/publisher/edit/'+publisher.id" >Edit </a>
        &nbsp;
-       <a :href="'{{URL::to('/')}}/genre/delete/'+genre.id" >Delete </a>
+       <a :href="'{{URL::to('/')}}/publisher/delete/'+publisher.id" >Delete </a>
        &nbsp;
        <br/>
 		<br/>
@@ -21,15 +20,15 @@
 @section('scripts')
 	<script>
         const app = new Vue({
-            el:'#genre',
+            el:'#publisher',
             data:{
-                genres : {}
+                publishers : {}
             },
             methods: {
-                getGenres(){
-                    axios.get(app_url+`/api/genre/all`)
+                getPublishers(){
+                    axios.get(app_url+`/api/publisher/all`)
                         .then((response) =>{
-                            this.genres = response.data;
+                            this.publishers = response.data;
 
                         })
                         .catch(function (error) {
@@ -38,15 +37,15 @@
                 },
                 listen(){
                     
-                    Echo.channel('genre.refresh')
+                    Echo.channel('publisher.refresh')
                     .listen('RefershGenre',()=>{
-                        this.getGenres();
+                        this.getPublishers();
                     });
                 }
             },
             mounted (){
               
-                this.getGenres();
+                this.getPublishers();
                 this.listen();
             }
         })

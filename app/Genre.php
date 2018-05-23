@@ -13,4 +13,9 @@ class Genre extends Model
     protected $fillable = [
       'name','deleted_at'
   	];
+
+  	public function books()
+  	{
+      return $this->hasMany('App\Book');
+  	}
 }
