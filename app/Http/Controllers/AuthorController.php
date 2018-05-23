@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Author;
 use Illuminate\Http\Request;
 use App\Events\NewAuthor;
+use App\Events\EditAuthor;
 
 
 class AuthorController extends Controller
@@ -16,7 +17,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $authors = Author::all();
+        $authors = Author::latest()->get();
         return view('author.show',['authors' => $authors]);
     }
 
@@ -84,6 +85,8 @@ class AuthorController extends Controller
           ]);
         $author = $author->update(['name'=>$request['name']]);
        /*Event boradcast need*/
+        broadcast(new EditAuthor())->toOthers();
+
         return redirect('author\all');
     }
 
@@ -98,12 +101,13 @@ class AuthorController extends Controller
         //
         $author->delete();
         /*Event boradcast need*/
+        broadcast(new EditAuthor())->toOthers();
         return redirect('author\all');
     }
 
     /*for api */
     public function api_author_get_all()
     {
-        return response()->json(Author::all());
+        return response()->json(Author::latest()->get());
     }
 }

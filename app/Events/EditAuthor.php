@@ -12,19 +12,19 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use App\Author;
 
-class NewAuthor implements ShouldBroadcastNow
+
+class EditAuthor implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $author;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Author $author)
+    public function __construct()
     {
-        $this->author = $author;
+        //
     }
 
     /**
@@ -34,15 +34,6 @@ class NewAuthor implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-//        return new PrivateChannel('post.'.$this->comment->post->id);
-         return new Channel('author.all');//public channel
-    }
-
-    public function broadcastWith()
-    {
-        return [
-            'name'=>$this->author->name,
-            'id' => $this->author->id,
-        ];
+       return new Channel('author.edit');//public channel
     }
 }

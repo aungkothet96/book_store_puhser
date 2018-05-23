@@ -4,19 +4,13 @@
 <div class="container" id="author_app">
 	<a href="{{URL::to('author/create')}}" >Create New Author</a>
 	All authors<br/>
-	{{--@foreach($authors as $author)--}}
-		{{--{{ $author['name'] }} &nbsp;--}}
-		{{--<a href="{{ URL::to('author/edit/'.$author['id']) }}" >Edit </a>--}}
-		{{--&nbsp;--}}
-		{{--<a href="{{ URL::to('author/delete/'.$author['id']) }}" >Delete </a>--}}
-		{{--<br/>--}}
-
-	{{--@endforeach--}}
 	<div v-for="author in authors">
 		@{{author.name}} &nbsp;
-		<a href="`author/edit/@{{author.id}}`" >Edit </a>
-		&nbsp;
-		<a href="`author/delete/@{{author.id}}`" >Delete </a>
+		<a :href="'{{URL::to('/')}}/author/edit/'+author.id" >Edit </a>
+       &nbsp;
+       <a :href="'{{URL::to('/')}}/author/delete/'+author.id" >Delete </a>
+       &nbsp;
+       <br/>
 		<br/>
 	</div>
 
@@ -24,38 +18,40 @@
 @endsection
 @section('scripts')
 	<script>
-        console.log({!! $authors->toJson() !!});
 		const app_url = "{{URL::to('/')}}";
-		console.log(app_url);
         const app = new Vue({
-            el:'#app',
+            el:'#author_app',
             data:{
                 authors : {}
             },
             methods: {
                 getAuthors(){
-                    axios.get(`${this.app_url}/api/author/all`)
+                    axios.get(app_url+`/api/author/all`)
                         .then((response) =>{
-                            console.log(response.data);
                             this.authors = response.data;
+
                         })
                         .catch(function (error) {
                             console.log(error);
                         });
                 },
                 listen(){
-                    Echo.channel('author.all')
+                    
+                    Echo.channel('author.new')
                         .listen('NewAuthor',(author)=>{
                             this.authors.unshift(author);
                         });
+                    Echo.channel('author.edit')
+                    .listen('EditAuthor',()=>{
+                        this.getAuthors();
+                    });
                 }
             },
             mounted (){
-                console.log("mounted");
+              
                 this.getAuthors();
                 this.listen();
             }
         })
-
 	</script>
 @endsection
