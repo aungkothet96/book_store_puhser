@@ -7,40 +7,43 @@
 
 @section('content')
 <div class="container">
+	<div class="row align-items-center justify-content-center">
+		<div class="col-md-6">
+			<form method="post" action="#" id="#">
 
-	<div class="row">
-		<form method="post" action="#" id="#">
+				<div class="form-group">
+					<label>Name</label>
+					<input type="text" name="name" placeholder="Enter Book Name" class="form-control">
+				</div>
+				<div class="form-group">
+					<label>Description</label>
+					<textarea name="description" class="form-control" wrap="true"></textarea>
+				</div>
+				<div class="form-group">
+					<label>Price</label>
+					<input type="text" name="price" placeholder="Enter Book Price" class="form-control">
+				</div>
+				<div class="form-group">
+					<label>Published Date</label>
+					<input type="date" name="date" placeholder="Enter Book Name" class="form-control">
+				</div>
 
-			<div class="form-group">
-				<label>Name</label>
-				<input type="text" name="name" placeholder="Enter Book Name" class="form-control">
-			</div>
-			<div class="form-group">
-				<label>Description</label>
-				<textarea name="description" class="form-control" wrap="true"></textarea>
-			</div>
-			<div class="form-group">
-				<label>Price</label>
-				<input type="text" name="price" placeholder="Enter Book Price" class="form-control">
-			</div>
-			<div class="form-group">
-				<label>Published Date</label>
-				<input type="date" name="date" placeholder="Enter Book Name" class="form-control">
-			</div>
+				<div class="form-group files">
+					<label>Upload Your Image </label>
+					<input type="file" class="form-control" name="image" accept="image/*">
+				</div>
+				<div class="form-group files">
+					<label>Upload Your Pdf </label>
+					<input type="file" class="form-control" name="pdf" accept="Application/pdf">
+				</div>
 
-			<div class="form-group files">
-				<label>Upload Your Image </label>
-				<input type="file" class="form-control" name="image" accept="images/*">
-			</div>
-			<div class="form-group files">
-				<label>Upload Your Pdf </label>
-				<input type="file" class="form-control" name="pdf" accept="Application/pdf">
-			</div>
+				<div class="form-group">
+					<input type="reset" value="Cancel" class="col-md-3 offset-3">
+					<input type="submit" value="Save" class="col-md-3">
+				</div>
 
-
-		</form>
-
-
+			</form>
+		</div>
 	</div>
 </div>
 @endsection
