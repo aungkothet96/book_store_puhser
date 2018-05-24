@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Author;
+use App\Genre;
+use App\Publisher;
+
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -25,8 +29,11 @@ class BookController extends Controller
     public function create()
     {
         //
-        return view('book.create');
-    }
+       $authors = Author::orderBy('name')->get()->toJson();
+       $genres = Genre::orderBy('name')->get()->toJson();
+       $publishers = Publisher::orderBy('name')->get()->toJson();
+       return view('book.create',['authors' => $authors,'genres' => $genres, 'publishers' => $publishers]);
+   }
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +43,17 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $this->validate($request, [
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required|digits',
+            'date' => 'required|date',
+            'image' => 'required|mimetypes:image\*',
+            'pdf' => 'required|mimetypes:application\pdf'
+        ]);
+        dd($request);
+        // $book = Book::create([]);
     }
 
     /**

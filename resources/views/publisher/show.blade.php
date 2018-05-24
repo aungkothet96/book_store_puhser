@@ -38,7 +38,7 @@
                 listen(){
                     
                     Echo.channel('publisher.refresh')
-                    .listen('RefershGenre',()=>{
+                    .listen('RefershPublisher',()=>{
                         this.getPublishers();
                     });
                 }

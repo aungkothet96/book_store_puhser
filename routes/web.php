@@ -40,6 +40,7 @@ Route::get('/publisher/delete/{publisher}','PublisherController@destroy');
 
 /* For Book*/
 Route::get('/book/create','BookController@create');
+Route::post('/book/store','BookController@store'); 
 
 Auth::routes();
 
