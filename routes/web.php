@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,34 +13,48 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Auth::routes();
+/* For Book*/
+Route::get('/book/show_all','BookController@index');
+Route::get('/book/detail/{name}','BookController@show');
+Route::post('/book/download/{id}','BookController@download');
+
+
 /* For Author */
 Route::get('/author/all','AuthorController@index');
-Route::get('/author/create','AuthorController@create');
-Route::post('author/store','AuthorController@store');
-Route::get('/author/edit/{author}','AuthorController@edit');
-Route::post('/author/update/{author}','AuthorController@update');
-Route::get('/author/delete/{author}','AuthorController@destroy');
+Route::get('/author/{name}','AuthorController@show');
 
 /* For Genre*/
 Route::get('/genre/all','GenreController@index');
-Route::get('/genre/create','GenreController@create');
-Route::post('genre/store','GenreController@store');
-Route::get('/genre/edit/{genre}','GenreController@edit');
-Route::post('/genre/update/{genre}','GenreController@update');
-Route::get('/genre/delete/{genre}','GenreController@destroy');
+Route::get('/genre/{name}','GenreController@show');
 
 /* For Publisher*/
 Route::get('/publisher/all','PublisherController@index');
-Route::get('/publisher/create','PublisherController@create');
-Route::post('publisher/store','PublisherController@store');
-Route::get('/publisher/edit/{publisher}','PublisherController@edit');
-Route::post('/publisher/update/{publisher}','PublisherController@update');
-Route::get('/publisher/delete/{publisher}','PublisherController@destroy');
 
-/* For Book*/
-Route::get('/book/create','BookController@create');
-Route::post('/book/store','BookController@store'); 
-
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/*for admin */
+Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
+	/*For Book*/
+	Route::get('/book/create','BookController@create');
+	Route::post('/book/store','BookController@store');
+	Route::get('/book/all','BookController@index'); 
+	Route::get('/book/edit/{book}','BookController@edit');
+	Route::post('/book/update/{book}','BookController@update');
+	/*For Genre*/
+	Route::get('/genre/edit/{genre}','GenreController@edit');
+	Route::post('/genre/update/{genre}','GenreController@update');
+	Route::get('/genre/delete/{genre}','GenreController@destroy');
+	Route::get('/genre/all','GenreController@show_all');
+	/*For Author*/
+	Route::get('/author/edit/{author}','AuthorController@edit');
+	Route::post('/author/update/{author}','AuthorController@update');
+	Route::get('/author/delete/{author}','AuthorController@destroy');
+	Route::get('/author/all','AuthorController@show_all');
+	/*For Publisher*/
+	Route::get('/publisher/edit/{publisher}','PublisherController@edit');
+	Route::post('/publisher/update/{publisher}','PublisherController@update');
+	Route::get('/publisher/delete/{publisher}','PublisherController@destroy');
+	Route::get('/publisher/all','PublisherController@show_all');
+});

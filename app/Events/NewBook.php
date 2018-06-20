@@ -10,21 +10,22 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
-use App\Author;
+use App\Book;
 
-class NewAuthor implements ShouldBroadcastNow
+class NewBook implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $author;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Author $author)
+    protected $book; 
+
+    public function __construct(Book $book)
     {
-        $this->author = $author;
+        $this->book = $book;
     }
 
     /**
@@ -34,15 +35,15 @@ class NewAuthor implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-//        return new PrivateChannel('post.'.$this->comment->post->id);
-         return new Channel('author.new');//public channel
+        return new Channel('book.new');
     }
 
     public function broadcastWith()
     {
         return [
-            'name'=>$this->author->name,
-            'id' => $this->author->id,
+            'name'=>$this->book->name,
+            'price' => $this->book->price,
         ];
+
     }
 }

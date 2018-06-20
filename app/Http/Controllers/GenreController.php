@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Genre;
+use App\Book;
 use Illuminate\Http\Request;
 use App\Events\RefershGenre;
 
@@ -15,8 +16,9 @@ class GenreController extends Controller
      */
     public function index()
     {
-        $genres = Genre::latest()->get();
-        return view('genre.show',['genres' => $genres]);
+       $genres = Genre::latest()->get();
+        $books = Book::with('genres','genres')->paginate(9);
+        return view('genre.all_genre',['genres' => $genres, 'books' => $books]);
     }
 
     /**
@@ -24,10 +26,10 @@ class GenreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function show_all()
     {
-        //
-        return view('genre.create');
+        $genres = Genre::latest()->get();
+        return view('genre.show',['genres' => $genres]);       
     }
 
     /**
@@ -44,7 +46,7 @@ class GenreController extends Controller
         $genre = Genre::create(['name'=>$request['name']]);
         /*Event boradcast need*/
         broadcast(new RefershGenre())->toOthers();
-        return redirect('genre\all');
+        return $genre->toJson();
     }
 
     /**
@@ -53,9 +55,17 @@ class GenreController extends Controller
      * @param  \App\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function show(Genre $genre)
+   public function show($name)
     {
-        //
+        $name = str_replace("_", " ", $name);
+        $id = $this->find_by_name($name);
+        if (!empty($id)) {
+            $genres = Genre::latest()->get();
+            $books = Book::with('authors','genres')->where('genre_id',$id[0])->paginate(9);
+            return view('genre.all_genre',['genres' => $genres, 'books' => $books]);
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -66,7 +76,7 @@ class GenreController extends Controller
      */
     public function edit(Genre $genre)
     {
-        return view('genre.create',['genre'=>$genre->toArray()]);
+        return view('genre.show',['genre'=>$genre->toArray()]);
     }
 
     /**
@@ -102,10 +112,21 @@ class GenreController extends Controller
         broadcast(new RefershGenre())->toOthers();
         return redirect('genre\all');
     }
+    
+    public function find_by_name($name)
+    {
+       $id = Genre::where('name','like', "%{$name}%")->pluck('id')->toArray();
+       return $id;
+    }
 
     /*for api */
     public function api_genre_get_all()
     {
         return response()->json(Genre::latest()->get());
+    }
+
+    public function api_genre_take_5()
+    {
+        return response()->json(Genre::latest()->take(5)->get());
     }
 }
