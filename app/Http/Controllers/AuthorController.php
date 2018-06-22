@@ -20,7 +20,7 @@ class AuthorController extends Controller
     {
         $authors = Author::latest()->get();
         $books = Book::with('authors','genres')->paginate(9);
-        return view('author.all_author',['authors' => $authors, 'books' => $books]);
+        return view('author.all_author',['authors' => $authors, 'books' => $books, 'title' => "Total Book(s) - "]);
     }
 
     /**
@@ -60,11 +60,11 @@ class AuthorController extends Controller
     public function show($name)
     {
         $name = str_replace("_", " ", $name);
-        $id = $this->find_by_name($name);
-        if (!empty($id)) {
+        $author = $this->find_by_name($name);
+        if ($author) {
             $authors = Author::latest()->get();
-            $books = Book::with('authors','genres')->where('author_id',$id[0])->paginate(9);
-            return view('author.all_author',['authors' => $authors, 'books' => $books]);
+            $books = Book::with('authors','genres')->where('author_id',$author->id)->paginate(9);
+            return view('author.all_author',['authors' => $authors, 'books' => $books, 'title' => $author->name."'s Book(s) - "]);
         } else {
             return redirect()->back();
         }
@@ -108,7 +108,6 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        //
         $author->delete();
         /*Event boradcast need*/
         broadcast(new EditAuthor())->toOthers();
@@ -117,9 +116,10 @@ class AuthorController extends Controller
 
     public function find_by_name($name)
     {
-       $id = Author::where('name','like', "%{$name}%")->pluck('id')->toArray();
+       $id = Author::where('name','like', "%{$name}%")->first();
        return $id;
     }
+
     /*for api */
     public function api_author_get_all()
     {
@@ -128,7 +128,6 @@ class AuthorController extends Controller
 
     public function api_auhtor_take_5()
     {
-        // dd(Author::latest()->take(5)->get());
         return response()->json(Author::latest()->take(5)->get());
     }
 }

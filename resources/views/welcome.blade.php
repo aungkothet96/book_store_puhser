@@ -34,8 +34,8 @@
             New Release Book(s)
           </div>
           <div class="card-body">
-            <div class="row">
-                <div class="card mr-3  ml-2 mb-3" style="width: 14rem;" v-for="book in books">
+            <div class="row ml-2">
+                <div class="card mr-3  ml-1 mb-3" style="width: 14rem;" v-for="book in books">
                   <img class="card-img-top" :src="`{{ URL::to('') }}/`+ book.image_name" alt="Card image cap" width="304" height="180">
                   <div class="card-body">
                     <h5 class="card-title"> @{{ book.name }}</h5>

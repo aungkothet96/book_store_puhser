@@ -18,7 +18,7 @@ class GenreController extends Controller
     {
        $genres = Genre::latest()->get();
         $books = Book::with('genres','genres')->paginate(9);
-        return view('genre.all_genre',['genres' => $genres, 'books' => $books]);
+        return view('genre.all_genre',['genres' => $genres, 'books' => $books, 'title' => "Total Book(s) - "]);
     }
 
     /**
@@ -58,11 +58,11 @@ class GenreController extends Controller
    public function show($name)
     {
         $name = str_replace("_", " ", $name);
-        $id = $this->find_by_name($name);
-        if (!empty($id)) {
+        $genre = $this->find_by_name($name);
+        if ($genre) {
             $genres = Genre::latest()->get();
-            $books = Book::with('authors','genres')->where('genre_id',$id[0])->paginate(9);
-            return view('genre.all_genre',['genres' => $genres, 'books' => $books]);
+            $books = Book::with('authors','genres')->where('genre_id',$genre->id)->paginate(9);
+            return view('genre.all_genre',['genres' => $genres, 'books' => $books, 'title' => $genre->name."'s Book(s) - "]);
         } else {
             return redirect()->back();
         }
@@ -115,7 +115,7 @@ class GenreController extends Controller
     
     public function find_by_name($name)
     {
-       $id = Genre::where('name','like', "%{$name}%")->pluck('id')->toArray();
+       $id = Genre::where('name','like', "%{$name}%")->first();
        return $id;
     }
 

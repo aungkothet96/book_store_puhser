@@ -5,7 +5,8 @@
 
 @section('content')
 <div class="row mt-2 mb-2 justify-content-md-center" id="book">
-	<div class="card">
+	<div class="col">
+		<div class="card">
 		<div class="card-header">
 			<h5 class="card-title"> @{{ book.name }}</h5>
 		</div>
@@ -47,6 +48,7 @@
 			<h5> You need sign in to <button class="btn btn-warning" disabled>Download</button></h5>
 			</div>
 			@endif
+		</div>
 		</div>
 	</div>
 </div>
