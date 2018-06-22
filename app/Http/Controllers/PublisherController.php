@@ -24,10 +24,10 @@ class PublisherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+     public function show_all()
     {
-        //
-        return view('publisher.create');
+        $publishers = Publisher::latest()->get();
+        return view('publisher.show',['publishers' => $publishers]);       
     }
 
     /**
@@ -44,7 +44,7 @@ class PublisherController extends Controller
         $publisher = Publisher::create(['name'=>$request['name']]);
         /*Event boradcast need*/
         broadcast(new RefershPublisher())->toOthers();
-        return redirect('publisher\all');
+        return $publisher->toJson();
     }
 
     /**
@@ -66,7 +66,7 @@ class PublisherController extends Controller
      */
     public function edit(Publisher $publisher)
     {
-        return view('publisher.create',['publisher'=>$publisher->toArray()]);
+        return view('publisher.show',['publisher'=>$publisher->toArray()]);
     }
 
     /**

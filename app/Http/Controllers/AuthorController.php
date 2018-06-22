@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Author;
+use App\Book;
 use Illuminate\Http\Request;
 use App\Events\NewAuthor;
 use App\Events\EditAuthor;
@@ -18,7 +19,8 @@ class AuthorController extends Controller
     public function index()
     {
         $authors = Author::latest()->get();
-        return view('author.show',['authors' => $authors]);
+        $books = Book::with('authors','genres')->paginate(9);
+        return view('author.all_author',['authors' => $authors, 'books' => $books]);
     }
 
     /**
@@ -26,10 +28,10 @@ class AuthorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function show_all()
     {
-        //
-        return view('author.create');
+        $authors = Author::latest()->get();
+        return view('author.show');
     }
 
     /**
@@ -46,7 +48,7 @@ class AuthorController extends Controller
         $author = Author::create(['name'=>$request['name']]);
         /*Event boradcast need*/
         broadcast(new NewAuthor($author))->toOthers();
-        return redirect('author\all');
+        return $author->toJson();
     }
 
     /**
@@ -55,9 +57,17 @@ class AuthorController extends Controller
      * @param  \App\Author  $author
      * @return \Illuminate\Http\Response
      */
-    public function show(Author $author)
+    public function show($name)
     {
-        //
+        $name = str_replace("_", " ", $name);
+        $id = $this->find_by_name($name);
+        if (!empty($id)) {
+            $authors = Author::latest()->get();
+            $books = Book::with('authors','genres')->where('author_id',$id[0])->paginate(9);
+            return view('author.all_author',['authors' => $authors, 'books' => $books]);
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -68,7 +78,7 @@ class AuthorController extends Controller
      */
     public function edit(Author $author)
     {
-        return view('author.create',['author'=>$author->toArray()]);
+        return view('author.show',['author'=>$author->toArray()]);
     }
 
     /**
@@ -105,9 +115,20 @@ class AuthorController extends Controller
         return redirect('author\all');
     }
 
+    public function find_by_name($name)
+    {
+       $id = Author::where('name','like', "%{$name}%")->pluck('id')->toArray();
+       return $id;
+    }
     /*for api */
     public function api_author_get_all()
     {
         return response()->json(Author::latest()->get());
+    }
+
+    public function api_auhtor_take_5()
+    {
+        // dd(Author::latest()->take(5)->get());
+        return response()->json(Author::latest()->take(5)->get());
     }
 }

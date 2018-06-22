@@ -15,17 +15,17 @@ class Book extends Model
 
 	public function authors()
 	{
-		return $this->belongsTo('App\Author');
+		return $this->belongsTo('App\Author','author_id');
 	}
 
 	public function genres()
 	{
-		return $this->belongsTo('App\Genre');
+		return $this->belongsTo('App\Genre','genre_id');
 	}
 	
 	public function publishers()
 	{
-		return $this->belongsTo('App\Publisher');
+		return $this->belongsTo('App\Publisher','publisher_id');
 	}
 
 }
