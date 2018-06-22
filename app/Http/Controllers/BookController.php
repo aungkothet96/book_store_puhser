@@ -7,6 +7,7 @@ use App\Author;
 use App\Genre;
 use App\Publisher;
 use Storage;
+use Session;
 use App\Events\NewBook;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,7 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::with('authors','genres')->get()->toJson();
-        return view('book.show_all',['books'=>$books]);
+        return view('book.show_all', ['books' => $books]);
     }
 
     /**
@@ -64,7 +65,7 @@ class BookController extends Controller
         $book = Book::create([
             'name' => $request['name'],
             'description' => $request['description'],
-            'price' => $request['price'],
+            'price' => number_format($request['price'], 2, '.', ''),
             'image_name' =>  $image_path,
             'pdf_name' => $pdf_path,
             'published_date' => $request['date'],
@@ -73,7 +74,8 @@ class BookController extends Controller
             'publisher_id' => $request['publisher']
         ]);
         broadcast(new NewBook($book))->toOthers();
-        return $book->toJson();
+       $books = Book::with('authors','genres')->get()->toJson();
+        return view('book.show_all',['books'=>$books]);
 
 
         // $book = Book::create([]);
@@ -105,7 +107,11 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+
+        $authors = Author::orderBy('name')->get()->toJson();
+        $genres = Genre::orderBy('name')->get()->toJson();
+        $publishers = Publisher::orderBy('name')->get()->toJson();
+        return view('book.edit',['authors' => $authors,'genres' => $genres, 'publishers' => $publishers, 'book' => $book]);
     }
 
     /**
@@ -117,7 +123,45 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required',
+            'date' => 'required|date',
+            'image' => 'nullable|mimes:jpg,png,jpeg',
+            'pdf' => 'nullable|mimes:pdf',
+            'author' => 'required',
+            'genre' => 'required',
+            'publisher' => 'required'
+        ]);
+        if ($request->file('image')) { 
+            $image_path = Storage::putFile('public/images', $request->file('image'));
+            $image_path = str_replace("public", "storage", $image_path);
+        } else {
+            $image_path = $book->image_name;
+        }
+        if($request->file('pdf')) {
+            $pdf_path = Storage::putFile('public/pdfs', $request->file('pdf'));
+        } else {
+            $pdf_path = $book->pdf_name;
+        }
+       
+
+        $book = $book->update([
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'price' => number_format($request['price'], 2, '.', ''),
+            'image_name' =>  $image_path,
+            'pdf_name' => $pdf_path,
+            'published_date' => $request['date'],
+            'author_id' => $request['author'],
+            'genre_id' => $request['genre'],
+            'publisher_id' => $request['publisher']
+        ]);
+        // broadcast(new NewBook($book))->toOthers();
+        Session::flash('success','Book Edited Successfully!.');
+        return redirect('admin/book/all');
+
     }
 
     /**
@@ -128,7 +172,11 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        /*Event boradcast need*/
+        // broadcast(new EditAuthor())->toOthers();
+       Session::flash('success','Book Deleted Successfully!.');
+        return redirect('admin/book/all');
     }
 
     public function download(Request $request,$id)

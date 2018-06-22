@@ -3,14 +3,14 @@
 @endsection
 @section('content')
 <div id="publisher_app">
-    <div class="row mt-2 mb-2 justify-content-md-center" >
+    <div class="row mt-2 mb-2 justify-content-center" >
         <div class="col-md-auto">
             @if(empty($publisher))
-            <div class="form-inline">
-                <div class="form-group mb-2">
+            <div class="form-inline row justify-content-center">
+                <div class="form-group mb-2 ml-2">
                     <label for="staticEmail2" >Name</label>
                 </div>
-                <div class="form-group mx-sm-3 mb-2">
+                <div class="form-group mx-sm-3 mb-2 ml-2">
                     <input type="text" v-model="name_box" placeholder="Enter Name" class="form-control ">
                     @if($errors->has('name'))
                     <span class="invalid-feedback">
@@ -18,15 +18,15 @@
                     </span>
                     @endif
                 </div>
-                <button type="button" class="btn btn-primary mb-2" @click.prevent="postpublisher">Save</button>
+                <button type="button" class="btn btn-primary mb-2 ml-2" @click.prevent="postPublisher">Save</button>
             </div>
             @else
-            <form action="{{URL::to('admin/publisher/update/'.$publisher['id'])}}" class="form-inline" method="post">
+            <form action="{{URL::to('admin/publisher/update/'.$publisher['id'])}}" class="form-inline row justify-content-center" method="post">
                 {{ csrf_field() }}
-                 <div class="form-group mb-2">
+                 <div class="form-group mb-2 ml-2">
                     <label for="staticEmail2" >Name</label>
                 </div>
-                <div class="form-group mx-sm-3 mb-2">
+                <div class="form-group mx-sm-3 mb-2 ml-2">
                     <input type="text" name="name" placeholder="Enter Name" class="form-control" value="{{$publisher['name']}}">
                     @if($errors->has('name'))
                     <span class="invalid-feedback">
@@ -34,12 +34,12 @@
                     </span>
                     @endif
                 </div>
-                <input type="submit" value="Save" class="btn btn-primary mb-2">
+                <input type="submit" value="Save" class="btn btn-primary mb-2 ml-2">
             </form>
             @endif
         </div>
     </div>
-    <div class="row mt-2 mb-2 justify-content-md-center">
+    <div class="row mt-2 mb-2 justify-content-center">
         <div class="col-auto">
             <table class="table table-hover table-responsive">
                 <thead>
@@ -59,7 +59,6 @@
     </div>
 </div>
 @endsection
-
 @section('scripts')
 <script>
     const app = new Vue({
@@ -73,7 +72,6 @@
                 axios.get(app_url+`/api/publisher/all`)
                 .then((response) =>{
                     this.publishers = response.data;
-
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -81,9 +79,7 @@
             },
             postPublisher(){
                 axios.post(app_url+`/api/publisher/store`, {
-
                   name: this.name_box ,
-
               })
                 .then((response) =>{
                   this.publishers.unshift(response.data);
@@ -94,7 +90,6 @@
               });
             },
             listen(){
-
                 Echo.channel('publisher.refresh')
                 .listen('RefershPublisher',()=>{
                     this.getPublishers();
@@ -102,7 +97,6 @@
             }
         },
         mounted (){
-
             this.getPublishers();
             this.listen();
         }

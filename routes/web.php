@@ -19,6 +19,7 @@ Route::get('/book/show_all','BookController@index');
 Route::get('/book/detail/{name}','BookController@show');
 Route::post('/book/download/{id}','BookController@download');
 
+
 /* For Author */
 Route::get('/author/all','AuthorController@index');
 Route::get('/author/{name}','AuthorController@show');
@@ -39,6 +40,9 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	Route::get('/book/create','BookController@create');
 	Route::post('/book/store','BookController@store');
 	Route::get('/book/all','BookController@index'); 
+	Route::get('/book/edit/{book}','BookController@edit');
+	Route::post('/book/update/{book}','BookController@update');
+	Route::get('/book/delete/{book}','BookController@destroy');
 	/*For Genre*/
 	Route::get('/genre/edit/{genre}','GenreController@edit');
 	Route::post('/genre/update/{genre}','GenreController@update');
