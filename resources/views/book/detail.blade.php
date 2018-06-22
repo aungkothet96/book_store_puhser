@@ -5,17 +5,16 @@
 
 @section('content')
 <div class="row mt-2 mb-2 justify-content-md-center" id="book">
-	<div class="card ">
+	<div class="card">
 		<div class="card-header">
 			<h5 class="card-title"> @{{ book.name }}</h5>
 		</div>
 		<div class="card-body">
 			<div class="row">
-				<div class=" mr-3  ml-2 mb-3 col" style="width: 14rem;" >
+				<div class="mr-md-3  ml-2 mb-3 col-sm-12 col-lg-auto col-md-3" style="width: 14rem;" >
 					<img class="card-img" :src="`{{ URL::to('') }}/`+ book.image_name" alt="Card image cap">
-					
 				</div>
-				<div class="card-body col-8">
+				<div class="card-body col-sm-12 col-md-8">
 					<table class="table table-hover">
 						<tr>
 							<th>Category</th>

@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('css')
-<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="container mt-2">

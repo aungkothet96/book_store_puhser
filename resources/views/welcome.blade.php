@@ -8,7 +8,7 @@
     <!-- left side bar -->
     <div class="col-md-3">
         <div class="row">
-            <div class="list-group col mt-2">
+            <div class="list-group col mt-2 ml-3">
                 <a class="list-group-item list-group-item-action active">
                     Top Author(s)
                 </a>
@@ -16,7 +16,7 @@
                  <a :href="'{{URL::to('/')}}/author/all'" class="list-group-item list-group-item-action" v-if="authors.length == 5">See all..</a>
             </div>
              <div class="w-100"></div>
-            <div class="list-group col mt-2">
+            <div class="list-group col mt-2 ml-3">
                 <a  class="list-group-item list-group-item-action active">
                     Top Categorie(s)
                 </a>
@@ -28,7 +28,7 @@
     </div>
     <!-- left side bar end -->
     <!-- right data content -->
-    <div class="col-md-9 mt-2">
+    <div class="col-md-9 mt-2 mb-2">
         <div class="card">
           <div class="card-header">
             New Release Book(s)
@@ -65,12 +65,6 @@
                 axios.get(app_url+`/api/genre/take_5`)
                 .then((response) =>{
                     this.categories = response.data;
-                    // console.log(this.categories.length);
-                    // if(this.categories.length >5)
-                    // {
-                    //     this.categories.splice(5, this.categories.length);
-                    // }
-                    // console.log(this.categories.length);
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -80,12 +74,6 @@
                 axios.get(app_url+`/api/author/take_5`)
                 .then((response) =>{
                     this.authors = response.data;
-                    // console.log(this.categories.length);
-                    // if(this.categories.length >5)
-                    // {
-                    //     this.categories.splice(5, this.categories.length);
-                    // }
-                    // console.log(this.categories.length);
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -95,12 +83,6 @@
                 axios.get(app_url+`/api/book/latest`)
                 .then((response) =>{
                     this.books = response.data;
-                    // console.log(this.categories.length);
-                    // if(this.categories.length >5)
-                    // {
-                    //     this.categories.splice(5, this.categories.length);
-                    // }
-                    // console.log(this.categories.length);
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -114,6 +96,10 @@
                 });
                 Echo.channel('author.new')
                 .listen('NewAuthor',()=>{
+                    this.getAuthors();
+                });
+                Echo.channel('author.edit')
+                .listen('EditAuthor',()=>{
                     this.getAuthors();
                 });
                 Echo.channel('book.new')

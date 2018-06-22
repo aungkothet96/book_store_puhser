@@ -21,7 +21,7 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::with('authors','genres')->get()->toJson();
-        return view('book.show_all',['books'=>$books]);
+        return view('book.show_all', ['books' => $books]);
     }
 
     /**
@@ -65,7 +65,7 @@ class BookController extends Controller
         $book = Book::create([
             'name' => $request['name'],
             'description' => $request['description'],
-            'price' => $request['price'],
+            'price' => number_format($request['price'], 2, '.', ''),
             'image_name' =>  $image_path,
             'pdf_name' => $pdf_path,
             'published_date' => $request['date'],
@@ -150,7 +150,7 @@ class BookController extends Controller
         $book = $book->update([
             'name' => $request['name'],
             'description' => $request['description'],
-            'price' => $request['price'],
+            'price' => number_format($request['price'], 2, '.', ''),
             'image_name' =>  $image_path,
             'pdf_name' => $pdf_path,
             'published_date' => $request['date'],
@@ -172,7 +172,11 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        /*Event boradcast need*/
+        // broadcast(new EditAuthor())->toOthers();
+       Session::flash('success','Book Deleted Successfully!.');
+        return redirect('admin/book/all');
     }
 
     public function download(Request $request,$id)

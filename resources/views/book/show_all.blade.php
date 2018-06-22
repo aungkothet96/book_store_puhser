@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <div id="books">
-    <div class="flash-message">
+    <div class="flash-message row mt-2 mb-2 justify-content-md-center">
         @foreach (['danger', 'warning', 'success', 'info'] as $msg)
           @if(Session::has($msg))
           <p class="alert alert-{{ $msg }}">{!! Session::get($msg) !!} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
@@ -27,7 +27,11 @@
                         <th>Options</th>
                     </thead>
                     <tr v-for="book in books">
-                        <td> @{{book.name}}</td>
+                        <td> 
+                            <a :href="'{{URL::to('/')}}/book/detail/'+book.name.split(' ').join('_').toLowerCase()" > 
+                                @{{book.name}} 
+                            </a>
+                        </td>
                         <td> @{{book.authors.name}}</td>
                         <td> @{{book.genres.name}}</td>
                         <td> @{{book.price}}</td>
