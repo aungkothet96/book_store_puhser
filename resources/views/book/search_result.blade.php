@@ -31,18 +31,27 @@
     <div class="col-md-9 mt-2 mb-2">
         <div class="card">
           <div class="card-header">
-            New Release Book(s)
+            Search Result(s)
           </div>
           <div class="card-body">
             <div class="row ml-2">
-                <div class="card mr-3  ml-1 mb-3" style="width: 14rem;" v-for="book in books">
-                  <img class="card-img-top" :src="`{{ URL::to('') }}/`+ book.image_name.replace('images','images/thumbnail')" alt="Card image cap">
-                  <div class="card-body">
-                    <h5 class="card-title"> @{{ book.name }}</h5>
-                    <h3> Price -$ @{{ book.price }}</h3>                
-                    <a :href="'{{URL::to('/')}}/book/detail/'+book.name.split(' ').join('_').toLowerCase()" class="btn btn-primary">View Detail</a>
-                  </div>
-                </div>
+                @if(1 != 0)
+                    @foreach($books as $book)
+                    <div class="card mr-3 mb-3 ml-1" style="width: 14rem;">
+                      <img class="card-img-top" src="{{ URL::to($book['image_name']) }}" width="304" height="180" alt="Card image cap">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ $book['name'] }}</h5>
+                        <h3> Price -${{ $book['price'] }}</h3>                
+                        <a href="{{URL::to('book/detail')}}/{{str_replace(' ','_',strtolower($book['name']))}}" class="btn btn-primary">View Detail</a>
+
+                      </div>
+                    </div>
+                    @endforeach 
+                @else
+                <blockquote class="blockquote">
+                  <p class="mb-0">No such book(s) right now.</p>
+                </blockquote>
+                @endif
             </div>
           </div>
         </div>
@@ -79,15 +88,6 @@
                     console.log(error);
                 });
             },
-            getLatestBook(){
-                axios.get(app_url+`/api/book/latest`)
-                .then((response) =>{
-                    this.books = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
             listen(){
 
                 Echo.channel('genre.refresh')
@@ -102,14 +102,9 @@
                 .listen('EditAuthor',()=>{
                     this.getAuthors();
                 });
-                Echo.channel('book.new')
-                .listen('NewBook',()=>{
-                    this.getLatestBook();
-                });
             }
         },
         mounted (){
-            this.getLatestBook();
             this.getGenres();
             this.getAuthors();
             this.listen();

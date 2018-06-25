@@ -8,6 +8,7 @@ use App\Genre;
 use App\Publisher;
 use Storage;
 use Session;
+use Image;
 use App\Events\NewBook;
 use Illuminate\Http\Request;
 
@@ -31,11 +32,10 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
-     $authors = Author::orderBy('name')->get()->toJson();
-     $genres = Genre::orderBy('name')->get()->toJson();
-     $publishers = Publisher::orderBy('name')->get()->toJson();
-     return view('book.create',['authors' => $authors,'genres' => $genres, 'publishers' => $publishers]);
+        $authors = Author::orderBy('name')->get()->toJson();
+        $genres = Genre::orderBy('name')->get()->toJson();
+        $publishers = Publisher::orderBy('name')->get()->toJson();
+        return view('book.create',['authors' => $authors,'genres' => $genres, 'publishers' => $publishers]);
     }
 
     /**
@@ -58,8 +58,16 @@ class BookController extends Controller
             'publisher' => 'required'
         ]);
 
+       
+
         $image_path = Storage::putFile('public/images', $request->file('image'));
         $image_path = str_replace("public", "storage", $image_path);
+       //making thumbnail
+        $img = Image::make($_FILES['image']['tmp_name']);
+        $img->resize(300, 300);
+        $thumbnail_path= str_replace("storage/images", "storage/images/thumbnail", $image_path);
+        $img->save(public_path($thumbnail_path),100);
+
         $pdf_path = Storage::putFile('public/pdfs', $request->file('pdf'));
 
         $book = Book::create([
@@ -74,11 +82,9 @@ class BookController extends Controller
             'publisher_id' => $request['publisher']
         ]);
         broadcast(new NewBook($book))->toOthers();
-       $books = Book::with('authors','genres')->get()->toJson();
-        return view('book.show_all',['books'=>$books]);
-
-
-        // $book = Book::create([]);
+        // $books = Book::with('authors','genres')->get()->toJson();
+        // return view('book.show_all',['books'=>$books]);
+        return redirect('admin/book/all');
     }
 
     /**
@@ -137,6 +143,11 @@ class BookController extends Controller
         if ($request->file('image')) { 
             $image_path = Storage::putFile('public/images', $request->file('image'));
             $image_path = str_replace("public", "storage", $image_path);
+            //making thumbnail
+            $img = Image::make($_FILES['image']['tmp_name']);
+            $img->resize(300, 300);
+            $thumbnail_path= str_replace("storage/images", "storage/images/thumbnail", $image_path);
+            $img->save(public_path($thumbnail_path),100);
         } else {
             $image_path = $book->image_name;
         }
@@ -184,6 +195,64 @@ class BookController extends Controller
         $book = Book::find($id);
         return Storage::download($book->pdf_name,$book->name.'.pdf');
     }
+
+    public function search(Request $request)
+    {
+        $booksByAuthor = Author::with('books')->where('name','like','%'.$request['query']."%")->get()->toArray();
+        $booksByGenre = Genre::with('books')->where('name','like','%'.$request['query']."%")->get()->toArray();
+        $booksByPublisher = Publisher::with('books')->where('name','like','%'.$request['query']."%")->get()->toArray();
+        $booksByTitle = Book::where('name','like','%'.$request['query']."%")->get()->toArray();
+
+        $resultBooks = array();
+        if(!empty($booksByAuthor)) {
+            foreach ($booksByAuthor as $key => $byAuthor) {
+                if(!empty($byAuthor['books'])) {
+                    foreach ($byAuthor['books'] as $value) {
+                        $resultBooks[] = $value;
+                    }
+                }
+            }
+        }
+
+        if(!empty($booksByGenre)) {
+            foreach ($booksByGenre as $key => $byGenre) {
+                 if(!empty($byGenre['books'])) {
+                    foreach ($byGenre['books'] as $value) {
+                        $resultBooks[] = $value;
+                    }
+                }
+            }
+        }
+
+        if(!empty($booksByPublisher)) {
+            foreach ($booksByPublisher as $key => $byPublisher) {
+                 if(!empty($byPublisher['books'])) {
+                    foreach ($byPublisher['books'] as $value) {
+                        $resultBooks[] = $value;
+                    }
+                }
+            }
+        }
+
+        if(!empty($booksByTitle)) { 
+            foreach ($booksByTitle as $key => $value) {
+                $resultBooks[] = $value;
+            }   
+        }
+
+        $resultBooks = array_map("unserialize", array_unique(array_map("serialize", $resultBooks)));
+
+        if(!empty($resultBooks)) {
+            foreach ($resultBooks as $key => $book) {
+                $resultBooks[$key]['authors'] = Author::find($book['author_id'])->toArray();
+                $resultBooks[$key]['genres'] = Genre::find($book['genre_id'])->toArray();
+            }
+        }
+
+        return view('book.search_result', ['books' => $resultBooks]);
+
+    }
+
     public function find_by_name($name)
     {
        $id = Book::where('name','like', "%{$name}%")->pluck('id')->toArray();
