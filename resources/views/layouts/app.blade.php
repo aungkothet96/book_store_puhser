@@ -20,6 +20,8 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
 
+    <!-- FontAwsome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <!-- Styles -->
     
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -53,10 +55,16 @@
                 </ul>
                 @endif
                 @endif
-                <!-- <form class="form-inline  ml-auto ">
-                    <input class="form-control mr-sm-2 ml-8" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form> -->
+                <div class="row ml-auto ">
+                    <form class="form-inline" action="{{ url('search') }}" method="GET">
+                        <div class="input-group ">
+                            <input type="search" class="form-control" name="query" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
+                            <div class="input-group-prepend">
+                                <button class="btn my-2 my-sm-0" type="submit"><span class="fa fa-search"></span></button>
+                            </div>
+                        </div>                       
+                    </form>
+                </div>
                 <ul class="navbar-nav ml-auto">
                     @if(Auth::user())
                     <li class="nav-item">
