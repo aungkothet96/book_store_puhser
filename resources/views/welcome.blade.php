@@ -9,7 +9,7 @@
     <div class="col-md-3">
         <div class="row">
             <div class="list-group col mt-2 ml-3">
-                <a class="list-group-item list-group-item-action active">
+                <a class="list-group-item list-group-item-action active  ii-title">
                     Top Author(s)
                 </a>
                 <a :href="'{{URL::to('/')}}/author/'+author.name.split(' ').join('_').toLowerCase()" class="list-group-item list-group-item-action" v-for="author in authors">@{{ author.name }} </a>
@@ -17,7 +17,7 @@
             </div>
              <div class="w-100"></div>
             <div class="list-group col mt-2 ml-3">
-                <a  class="list-group-item list-group-item-action active">
+                <a  class="list-group-item list-group-item-action active ii-title">
                     Top Categorie(s)
                 </a>
                 <a :href="'{{URL::to('/')}}/genre/'+genre.name.split(' ').join('_').toLowerCase()" class="list-group-item list-group-item-action" v-for="genre in categories">@{{ genre.name }} </a>
@@ -35,14 +35,17 @@
           </div>
           <div class="card-body">
             <div class="row ml-2">
-                <div class="card mr-3  ml-1 mb-3" style="width: 14rem;" v-for="book in books">
-                  <img class="card-img-top" :src="`{{ URL::to('') }}/`+ book.image_name.replace('images','images/thumbnail')" alt="Card image cap">
-                  <div class="card-body">
-                    <h5 class="card-title"> @{{ book.name }}</h5>
-                    <h3> Price -$ @{{ book.price }}</h3>                
-                    <a :href="'{{URL::to('/')}}/book/detail/'+book.name.split(' ').join('_').toLowerCase()" class="btn btn-primary">View Detail</a>
-                  </div>
-                </div>
+                <a :href="'{{URL::to('/')}}/book/detail/'+book.name.split(' ').join('_').toLowerCase()"  v-for="book in books" class="disable-link-color">
+                    <div class="card mr-3  ml-1 mb-3" style="width: 14rem;">
+                      <img class="card-img-top" :src="`{{ URL::to('') }}/`+ book.image_name.replace('images','images/thumbnail')" alt="@{{ book.name }}">
+                      <div class="card-body">
+                        <h5 class="card-title"> @{{ book.name }}</h5>
+                        <h5 class="card-title">By @{{ book.authors.name }}</h5>
+                        <label>USD - $@{{ book.price }}</label><br/>
+                        <label>Downloads - @{{ book.download }} </label>                
+                       </div>
+                    </div>
+                </a>
             </div>
           </div>
         </div>

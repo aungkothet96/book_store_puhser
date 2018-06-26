@@ -5877,8 +5877,8 @@ input[type="button"].btn-block {
   display: block;
   padding: 0.75rem 1.25rem;
   margin-bottom: -1px;
-  /*background-color: #fff; akt-changed*/
-  /*border: 1px solid rgba(0, 0, 0, 0.125); akt-changed*/
+  background-color: #fff;/* akt-changed*//* undo changes for 27-6-18 interview*/
+  border: 1px solid rgba(0, 0, 0, 0.125); /*akt-changed*/
 }
 
 .list-group-item:first-child {

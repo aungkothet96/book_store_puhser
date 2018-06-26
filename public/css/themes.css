@@ -13,7 +13,7 @@
 }
 
 .ii-title {
-	font-family: 'Lora', serif;
+	font-family: 'Lora', sans-serif;
 	text-transform: uppercase;
 }
 
@@ -27,4 +27,8 @@ html,body{
 
 .fill {
     flex:1;
+}
+
+.nav-item{
+	font-weight: 900;
 }

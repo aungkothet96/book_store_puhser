@@ -193,6 +193,8 @@ class BookController extends Controller
     public function download(Request $request,$id)
     {
         $book = Book::find($id);
+        $book->download += 1;
+        $book->save();
         return Storage::download($book->pdf_name,$book->name.'.pdf');
     }
 

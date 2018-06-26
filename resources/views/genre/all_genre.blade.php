@@ -7,7 +7,7 @@
     <div class="col-md-3 mt-2">
         <div class="row">
             <div class="list-group col ml-3 ">
-                <a href="{{ URL::to('genre/all') }}" class="list-group-item list-group-item-action active">
+                <a href="{{ URL::to('genre/all') }}" class="list-group-item list-group-item-action active ii-title">
                 Categories
             </a>
             <a :href="'{{URL::to('/')}}/genre/'+genre.name.split(' ').join('_').toLowerCase()" class="list-group-item list-group-item-action" v-for="genre in genres">@{{ genre.name }} </a>
@@ -23,15 +23,17 @@
                 <div class="row ml-2">
                     @if($books->total() != 0)
                         @foreach($books as $book)
-                        <div class="card mr-4 mb-3 ml-1" style="width: 14rem;">
-                          <img class="card-img-top" src="{{ url( $book->image_name ) }}" width="304" height="180" alt="Card image cap">
-                          <div class="card-body">
-                            <h5 class="card-title">{{ $book->name }}</h5>
-                            <h3> Price -${{ $book->price }}</h3>                
-                            <a href="{{URL::to('book/detail')}}/{{str_replace(' ','_',strtolower($book->name))}}" class="btn btn-primary">View Detail</a>
-
-                          </div>
-                        </div>
+                        <a href="{{URL::to('book/detail')}}/{{str_replace(' ','_',strtolower($book->name))}}" class="disable-link-color">
+                            <div class="card mr-3 mb-3 ml-1" style="width: 14rem;">
+                              <img class="card-img-top" src="{{ URL::to(str_replace('images','images/thumbnail',$book->image_name)) }}" alt="{{ $book->name }}">
+                              <div class="card-body">
+                                <h5 class="card-title"> {{ $book->name }}</h5>
+                                <h5 class="card-title">By {{ $book->authors->name }}</h5>
+                                <label>USD - ${{ $book->price }}</label><br/>
+                                <label>Downloads - {{ $book->download}} </label>         
+                              </div>
+                            </div>
+                        </a>
                         @endforeach 
                     @else
                     <blockquote class="blockquote">
