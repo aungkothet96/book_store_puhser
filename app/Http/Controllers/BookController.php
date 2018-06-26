@@ -198,6 +198,6 @@ class BookController extends Controller
 
     public function api_book_get_latest()
     {
-        return response()->json(Book::latest()->take(10)->get());
+        return response()->json(Book::with('authors','genres')->latest()->take(10)->get());
     }
 }

@@ -62,7 +62,7 @@ class GenreController extends Controller
         if ($genre) {
             $genres = Genre::latest()->get();
             $books = Book::with('authors','genres')->where('genre_id',$genre->id)->paginate(9);
-            return view('genre.all_genre',['genres' => $genres, 'books' => $books, 'title' => $genre->name."'s Book(s) - "]);
+            return view('genre.all_genre',['genres' => $genres, 'books' => $books, 'title' => $genre->name." Book(s) - "]);
         } else {
             return redirect()->back();
         }
@@ -95,7 +95,7 @@ class GenreController extends Controller
        /*Event boradcast need*/
         broadcast(new RefershGenre())->toOthers();
 
-        return redirect('genre\all');
+        return redirect('admin\genre\all');
     }
 
     /**
@@ -106,11 +106,10 @@ class GenreController extends Controller
      */
     public function destroy(Genre $genre)
     {
-        //
         $genre->delete();
         /*Event boradcast need*/
         broadcast(new RefershGenre())->toOthers();
-        return redirect('genre\all');
+        return redirect('admin\genre\all');
     }
     
     public function find_by_name($name)

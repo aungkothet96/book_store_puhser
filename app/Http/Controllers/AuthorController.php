@@ -64,7 +64,7 @@ class AuthorController extends Controller
         if ($author) {
             $authors = Author::latest()->get();
             $books = Book::with('authors','genres')->where('author_id',$author->id)->paginate(9);
-            return view('author.all_author',['authors' => $authors, 'books' => $books, 'title' => $author->name."'s Book(s) - "]);
+            return view('author.all_author',['authors' => $authors, 'books' => $books, 'title' => $author->name." Book(s) - "]);
         } else {
             return redirect()->back();
         }
@@ -97,7 +97,7 @@ class AuthorController extends Controller
        /*Event boradcast need*/
         broadcast(new EditAuthor())->toOthers();
 
-        return redirect('author\all');
+        return redirect('admin\author\all');
     }
 
     /**
@@ -111,7 +111,7 @@ class AuthorController extends Controller
         $author->delete();
         /*Event boradcast need*/
         broadcast(new EditAuthor())->toOthers();
-        return redirect('author\all');
+        return redirect('admin\author\all');
     }
 
     public function find_by_name($name)

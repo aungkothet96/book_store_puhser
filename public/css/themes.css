@@ -1,0 +1,30 @@
+.ii-side-bar {
+	background: #f5f5f5;
+	color: #212121;
+	min-height: 100%;
+}
+
+.ii-content {
+	background: #fafafa;
+}
+
+.ii-nav-bar {
+	background-color: hsl(0, 0%, 100%) !important;
+}
+
+.ii-title {
+	font-family: 'Lora', serif;
+	text-transform: uppercase;
+}
+
+.ii-divider {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+html,body{
+    height:100% !important;
+}
+
+.fill {
+    flex:1;
+}

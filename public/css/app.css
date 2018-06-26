@@ -1,9 +1,12 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);/*!
+@import "themes.css";
+@import url('https://fonts.googleapis.com/css?family=Lora');
+/*!@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
  * Bootstrap v4.1.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+
 
 :root {
   --blue: #007bff;
@@ -4598,6 +4601,7 @@ input[type="button"].btn-block {
   font-size: 1.125rem;
   line-height: inherit;
   white-space: nowrap;
+  font-family: 'Lora', serif;/*akt-added*/
 }
 
 .navbar-brand:hover,
@@ -5082,6 +5086,8 @@ input[type="button"].btn-block {
 
 .card-title {
   margin-bottom: 0.75rem;
+  font-family: 'Lora', serif;/*akt-added*/
+  font-weight: 550;
 }
 
 .card-subtitle {
@@ -5106,6 +5112,8 @@ input[type="button"].btn-block {
   margin-bottom: 0;
   background-color: rgba(0, 0, 0, 0.03);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  font-family: 'Lora', serif;
+  text-transform: uppercase;
 }
 
 .card-header:first-child {
@@ -5869,8 +5877,8 @@ input[type="button"].btn-block {
   display: block;
   padding: 0.75rem 1.25rem;
   margin-bottom: -1px;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  /*background-color: #fff; akt-changed*/
+  /*border: 1px solid rgba(0, 0, 0, 0.125); akt-changed*/
 }
 
 .list-group-item:first-child {
@@ -10417,3 +10425,12 @@ a.text-dark:focus {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+.disable-link-color {
+  color:inherit;
+  text-decoration: none;
+}
+
+.disable-link-color:hover {
+  color:inherit;
+  text-decoration: none;
+}

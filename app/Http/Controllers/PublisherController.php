@@ -85,7 +85,7 @@ class PublisherController extends Controller
        /*Event boradcast need*/
         broadcast(new RefershPublisher())->toOthers();
 
-        return redirect('publisher\all');
+        return redirect('admin\publisher\all');
     }
 
     /**
@@ -100,7 +100,7 @@ class PublisherController extends Controller
         $publisher->delete();
         /*Event boradcast need*/
         broadcast(new RefershPublisher())->toOthers();
-        return redirect('publisher\all');
+        return redirect('admin\publisher\all');
     }
 
     /*for api */
