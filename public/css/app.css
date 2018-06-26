@@ -5088,6 +5088,10 @@ input[type="button"].btn-block {
   margin-bottom: 0.75rem;
   font-family: 'Lora', serif;/*akt-added*/
   font-weight: 550;
+  /*akt-added*/
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .card-subtitle {

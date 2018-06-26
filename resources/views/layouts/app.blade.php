@@ -62,7 +62,7 @@
                         <div class="input-group ">
                             <input type="search" class="form-control" name="query" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
                             <div class="input-group-prepend">
-                                <button class="btn my-2 my-sm-0" type="submit"><span class="fa fa-search"></span></button>
+                                <button class="btn" type="submit"><span class="fa fa-search"></span></button>
                             </div>
                         </div>                       
                     </form>
