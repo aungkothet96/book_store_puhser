@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddDownloadToBooks extends Migration
+class AddThemeToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddDownloadToBooks extends Migration
      */
     public function up()
     {
-        Schema::table('books', function($table) {
-            $table->integer('download')->unsigned()->default(0);
+        Schema::table('users', function($table) {
+            $table->tinyInteger('theme')->default(0);
         });
     }
 
@@ -24,9 +24,9 @@ class AddDownloadToBooks extends Migration
      * @return void
      */
     public function down()
-    { 
-        Schema::table('books', function($table) {
-            $table->dropColumn('download');
+    {
+        Schema::table('users', function($table) {
+            $table->dropColumn('theme');
         });
     }
 }

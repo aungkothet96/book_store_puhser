@@ -4,7 +4,8 @@
 @endsection
 
 @section('content')
-<div class="row mt-2 mb-2 justify-content-md-center" id="book">
+{{ Breadcrumbs::render('detail') }}
+<div class="row mb-2 justify-content-md-center" id="book">
 	<div class="col">
 		<div class="card">
 		<div class="card-header">

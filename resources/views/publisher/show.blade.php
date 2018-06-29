@@ -2,6 +2,7 @@
 @section('css')
 @endsection
 @section('content')
+{{ Breadcrumbs::render('publisher-list') }}
 <div id="publisher_app">
     <div class="row mt-2 mb-2 justify-content-center" >
         <div class="col-md-auto">
@@ -18,7 +19,7 @@
                     </span>
                     @endif
                 </div>
-                <button type="button" class="btn btn-primary mb-2 ml-2" @click.prevent="postPublisher">Save</button>
+                <button type="button" class="btn ii-search-btn mb-2 ml-2" @click.prevent="postPublisher">Save</button>
             </div>
             @else
             <form action="{{URL::to('admin/publisher/update/'.$publisher['id'])}}" class="form-inline row justify-content-center" method="post">

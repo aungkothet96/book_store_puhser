@@ -20,7 +20,7 @@ class AuthorController extends Controller
     {
         $authors = Author::latest()->get();
         $books = Book::with('authors','genres')->paginate(9);
-        return view('author.all_author',['authors' => $authors, 'books' => $books, 'title' => "Total Book(s) - "]);
+        return view('author.all_author',['authors' => $authors, 'books' => $books, 'title' => "Total"]);
     }
 
     /**
@@ -59,15 +59,16 @@ class AuthorController extends Controller
      */
     public function show($name)
     {
-        $name = str_replace("_", " ", $name);
+       $name = str_replace("_", " ", $name);
         $author = $this->find_by_name($name);
         if ($author) {
             $authors = Author::latest()->get();
             $books = Book::with('authors','genres')->where('author_id',$author->id)->paginate(9);
-            return view('author.all_author',['authors' => $authors, 'books' => $books, 'title' => $author->name." Book(s) - "]);
+            return view('author.all_author',['authors' => $authors, 'books' => $books, 'title' => $author->name]);
         } else {
             return redirect()->back();
-        }
+        } 
+        
     }
 
     /**

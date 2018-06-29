@@ -5,7 +5,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" id="book">
+{{ Breadcrumbs::render('book-edit',$book->name) }}
+<div id="book">
 	<div class="row align-items-center justify-content-center">
 		<div class="col-md-6 card mt-2 mb-2">
 			<form method="post" action="{{ URL::to('admin/book/update/'.$book->id) }}" enctype="multipart/form-data">

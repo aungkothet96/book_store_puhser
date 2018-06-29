@@ -4,6 +4,7 @@
 @endsection
 
 @section('content')
+ {{ Breadcrumbs::render('home') }}
 <div class="row" id="home">
     <!-- left side bar -->
     <div class="col-md-3">

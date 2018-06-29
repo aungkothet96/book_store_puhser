@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -25,5 +26,18 @@ class HomeController extends Controller
     {
         // echo ;
         return view('home');
+    }
+
+    public function changeTheme($theme) /* theme 0 ==> light , theme 1 ==> dark */
+    {
+
+        $user = Auth::user();
+        if ($theme == 'dark') {
+            $user->theme = 1;
+        } elseif ($theme == 'light') {
+            $user->theme = 0;
+        } 
+        $a = $user->save();
+        return redirect()->back();
     }
 }

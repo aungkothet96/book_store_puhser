@@ -14,6 +14,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 Auth::routes();
+
+/* Change Theme */
+Route::get('change-theme/{theme}','HomeController@changeTheme');
 /* For Book*/
 Route::get('/book/show_all','BookController@index');
 Route::get('/book/detail/{name}','BookController@show');

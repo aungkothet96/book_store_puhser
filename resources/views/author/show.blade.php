@@ -2,6 +2,7 @@
 @section('css')
 @endsection
 @section('content')
+{{ Breadcrumbs::render('author-list') }}
 <div id="author_app">
     <div class="row mt-2 mb-2 justify-content-center" >
         <div class="col-md-auto">
@@ -18,7 +19,7 @@
                     </span>
                     @endif
                 </div>
-                <button type="button" class="btn btn-primary mb-2 ml-2" @click.prevent="postAuthor">Save</button>
+                <button type="button" class="btn ii-search-btn mb-2 ml-2" @click.prevent="postAuthor">Save</button>
             </div>
             @else
             <form action="{{URL::to('admin/author/update/'.$author['id'])}}" class="form-inline row justify-content-center" method="post">

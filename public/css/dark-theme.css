@@ -1,0 +1,71 @@
+body {
+	background: #121212 !important;
+}
+.ii-search-btn {
+	background: #343434 !important;
+    color: #5F5F5F !important;
+}
+.ii-nav-bar {
+	background-color: hsl(0, 0%, 14%) !important;
+}
+
+.list-group-item {
+		background-color: #1C1C1C !important;
+		color: #A4A49C !important;
+}
+
+.list-group-item.active {
+	background-color: #1C1C1C !important;
+  	border-color: #121212 !important;
+}
+
+.ii-title {
+	font-family: 'Lora', sans-serif;
+	text-transform: uppercase;
+}
+
+.navbar-light .navbar-brand {
+    color: #fff !important;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #A4A49C !important;
+}
+
+.card-header {
+	background-color: #1C1C1C !important;
+	color: #fff !important;
+}
+
+.form-control {
+	background-color: #000 !important;
+	border-color: #343434 !important;
+}
+
+.card {
+	background-color: #1C1C1C !important;
+}
+
+.card-body {
+	background: #000 !important;
+	color: #A4A49C !important;
+}
+
+.fill {
+    flex:1;
+}
+
+.nav-item{
+	font-weight: 900;
+}
+
+label, th {
+	color: #fff !important;
+}
+
+td {
+	color: #A4A49C !important;
+}
+a {
+	color: #a5a579 !important;
+}

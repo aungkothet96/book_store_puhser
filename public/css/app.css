@@ -1,4 +1,3 @@
-@import "themes.css";
 @import url('https://fonts.googleapis.com/css?family=Lora');
 /*!@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
  * Bootstrap v4.1.1 (https://getbootstrap.com/)
@@ -5355,10 +5354,12 @@ input[type="button"].btn-block {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
+  /*padding: 0.75rem 1rem; akt-changed*/
+  padding: 1.75rem 1rem 0.5rem;
+  /*margin-bottom: 1rem; akt-changed*/
+  margin-bottom: 0.5rem;
   list-style: none;
-  background-color: #e9ecef;
+  /*background-color: #e9ecef; akt-commented*/
   border-radius: 0.25rem;
 }
 
@@ -5881,7 +5882,6 @@ input[type="button"].btn-block {
   display: block;
   padding: 0.75rem 1.25rem;
   margin-bottom: -1px;
-  background-color: #fff;/* akt-changed*//* undo changes for 27-6-18 interview*/
   border: 1px solid rgba(0, 0, 0, 0.125); /*akt-changed*/
 }
 
@@ -5911,8 +5911,9 @@ input[type="button"].btn-block {
 .list-group-item.active {
   z-index: 2;
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+ /* background-color: #007bff; akt-changed
+  border-color: #007bff;*/
+  /*background-color: #e6ecf0;*/
 }
 
 .list-group-flush .list-group-item {

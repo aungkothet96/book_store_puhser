@@ -18,7 +18,7 @@ class GenreController extends Controller
     {
        $genres = Genre::latest()->get();
         $books = Book::with('genres','genres')->paginate(9);
-        return view('genre.all_genre',['genres' => $genres, 'books' => $books, 'title' => "Total Book(s) - "]);
+        return view('genre.all_genre',['genres' => $genres, 'books' => $books, 'title' => "Total"]);
     }
 
     /**
@@ -62,7 +62,7 @@ class GenreController extends Controller
         if ($genre) {
             $genres = Genre::latest()->get();
             $books = Book::with('authors','genres')->where('genre_id',$genre->id)->paginate(9);
-            return view('genre.all_genre',['genres' => $genres, 'books' => $books, 'title' => $genre->name." Book(s) - "]);
+            return view('genre.all_genre',['genres' => $genres, 'books' => $books, 'title' => $genre->name]);
         } else {
             return redirect()->back();
         }

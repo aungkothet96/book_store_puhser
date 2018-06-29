@@ -5,9 +5,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" id="book">
-	<div class="row align-items-center justify-content-center">
-		<div class="col-md-6 ">
+{{ Breadcrumbs::render('book-create') }}
+<div id="book">
+	<div class="row align-items-center justify-content-center ">
+		<div class="col-md-6 card mt-2 mb-2">
 			<form method="post" action="{{ URL::to('admin/book/store') }}" enctype="multipart/form-data">
 				{{ csrf_field() }}
 				<div class="form-group">

@@ -3,6 +3,7 @@
 
 @endsection
 @section('content')
+{{ Breadcrumbs::render('book-list') }}
 <div id="books">
     <div class="flash-message row mt-2 mb-2 justify-content-md-center">
         @foreach (['danger', 'warning', 'success', 'info'] as $msg)

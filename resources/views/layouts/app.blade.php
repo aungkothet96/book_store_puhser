@@ -27,11 +27,21 @@
     <!-- Styles -->
     
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @if(Auth::user())
+        @if (Auth::user()->theme == 0)
+         <link href="{{ asset('css/theme.css') }}" rel="stylesheet">
+        @elseif (Auth::user()->theme == 1)
+         <link href="{{ asset('css/dark-theme.css') }}" rel="stylesheet">
+        @endif
+    @else
+        <link href="{{ asset('css/theme.css') }}" rel="stylesheet">
+    @endif
+
     @yield('css')
 </head>
 <body>
     <!-- Nav bar -->
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+    <nav class="navbar navbar-expand-lg navbar-light ii-nav-bar fixed-top" >
         <div class="container">
             <a class="navbar-brand" href="{{URL::to('/')}}">Innovative Idea</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,17 +72,30 @@
                         <div class="input-group ">
                             <input type="search" class="form-control" name="query" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
                             <div class="input-group-prepend">
-                                <button class="btn" type="submit"><span class="fa fa-search"></span></button>
+                                <button class="btn ii-search-btn" type="submit"><span class="fa fa-search"></span></button>
                             </div>
                         </div>                       
                     </form>
                 </div>
                 <ul class="navbar-nav ml-auto">
                     @if(Auth::user())
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navDropDownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="fa fa-user"></span> {{ Auth::user()->name}}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navDropDownLink">
+                            @if (Auth::user()->theme == 0)
+                             <a class="dropdown-item" href="{{ url('change-theme/dark') }}">Change Dark Theme</a>
+                            @elseif (Auth::user()->theme == 1)
+                             <a class="dropdown-item" href="{{ url('change-theme/light') }}">Change Light Theme</a>
+                            @endif
+                            
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <form action="{{url('logout')}}" method="POST"> 
                             @csrf
-                             <button class="btn btn-outline-success my-2 ml-2 my-sm-0" type="submit">Logout</button>
+                             <button class="btn btn-outline ii-search-btn my-2 ml-2 my-sm-0" type="submit">Logout</button>
                         </form>
                     </li>
                     @else
@@ -89,7 +112,7 @@
         </div>
     </nav>
     <!-- Nav bar -->
-    <div class="container">
+    <div class="container mt-5">
         @yield('content')
     </div>
     @yield('scripts')

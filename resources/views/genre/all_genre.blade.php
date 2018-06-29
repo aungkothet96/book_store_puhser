@@ -3,21 +3,26 @@
 
 @endsection
 @section('content')
+@if($title == "Total")
+    {{ Breadcrumbs::render('genre') }}
+@else
+    {{ Breadcrumbs::render('genres',$title) }}
+@endif
 <div class="row mt-2" id="genre_app">
     <div class="col-md-3 mt-2">
         <div class="row">
             <div class="list-group col ml-3 ">
-                <a href="{{ URL::to('genre/all') }}" class="list-group-item list-group-item-action active ii-title">
-                Categories
-            </a>
-            <a :href="'{{URL::to('/')}}/genre/'+genre.name.split(' ').join('_').toLowerCase()" class="list-group-item list-group-item-action" v-for="genre in genres">@{{ genre.name }} </a>
+               <a class="list-group-item list-group-item-action active  ii-title">
+                   Categories(s)
+                </a>
+                <a :href="'{{URL::to('/')}}/genre/'+genre.name.split(' ').join('_').toLowerCase()" class="list-group-item list-group-item-action" v-for="genre in genres">@{{ genre.name }} </a>
             </div>
         </div>
     </div>
      <div class="col-md-9 mt-2 mb-2"> 
         <div class="card">
             <div class="card-header">
-            {{ $title . $books->total() }}
+            {{ $title ." Book(s) - ". $books->total() }}
             </div>
             <div class="card-body">
                 <div class="row ml-2">

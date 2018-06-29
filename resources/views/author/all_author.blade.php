@@ -3,12 +3,17 @@
 
 @endsection
 @section('content')
+@if($title == "Total")
+    {{ Breadcrumbs::render('author') }}
+@else
+    {{ Breadcrumbs::render('authors',$title) }}
+@endif
 <div class="row" id="author_app">
     <div class="col-md-3 mt-2">
         <div class="row">
             <div class="list-group col ml-3 ">
-                <a href="{{ URL::to('author/all') }}" class="list-group-item list-group-item-action active ii-title">
-                    Author(s)
+                <a class="list-group-item list-group-item-action active  ii-title">
+                   Author(s)
                 </a>
                 <a :href="'{{URL::to('/')}}/author/'+author.name.split(' ').join('_').toLowerCase()" class="list-group-item list-group-item-action" v-for="author in authors">@{{ author.name }} </a>
             </div>
@@ -17,7 +22,7 @@
     <div class="col-md-9 mt-2 mb-2"> 
         <div class="card">
             <div class="card-header">
-            {{ $title . $books->total() }}
+            {{ $title ." Book(s) - ". $books->total() }}
             </div>
             <div class="card-body">
                 <div class="row ml-2">
