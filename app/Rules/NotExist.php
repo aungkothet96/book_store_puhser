@@ -17,6 +17,8 @@ class NotExist implements Rule
         //
     }
 
+    
+
     /**
      * Determine if the validation rule passes.
      *
@@ -31,7 +33,7 @@ class NotExist implements Rule
             return false;
         } else {
             //need to check with https://trumail.io
-            $check_result =json_decode(file_get_contents("https://api.trumail.io/v2/lookups/json?email=". $value ."&token=608e1ffc-e00d-4b96-9c50-d49e13973536"));
+            $check_result =json_decode(file_get_contents("https://api.trumail.io/v2/lookups/json?email=". $value ."&token=".\Config::get('credential.turmail_token')));
             if ($check_result->deliverable) {
                 return true;
             } else {
