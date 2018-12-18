@@ -15,6 +15,17 @@ class Author extends Model
       'name','deleted_at'
   	];
   	
+
+    protected static function boot() 
+    {
+      parent::boot();
+
+      static::deleting(function($author) {
+         foreach ($author->books()->get() as $book) {
+            $book->delete();
+         }
+      });
+    }
   	public function books()
   	{
       return $this->hasMany('App\Book');

@@ -23,6 +23,7 @@ Route::post('genre/store','GenreController@store');
 Route::post('publisher/store','PublisherController@store');
 Route::get('book/all','BookController@api_book_get_all');
 Route::get('book/latest','BookController@api_book_get_latest');
+Route::get('author/get_trash','AuthorController@get_trash_authors');
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

@@ -9,7 +9,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/tester',function ()
+{
+	$a = \App\Book::with('authors')->where('id',1)->get();
+	return $a;
+});
 Route::get('/', function () {
     return view('welcome');
 });
@@ -18,20 +22,20 @@ Auth::routes();
 /* Change Theme */
 Route::get('change-theme/{theme}','HomeController@changeTheme');
 /* For Book*/
-Route::get('/book/show_all','BookController@index');
+// Route::get('/book/show_all','BookController@index');
 Route::get('/book/detail/{name}','BookController@show');
 Route::post('/book/download/{id}','BookController@download');
 
 /* For Author */
-Route::get('/author/all','AuthorController@index');
+// Route::get('/author/all','AuthorController@index');
 Route::get('/author/{name}','AuthorController@show');
 
 /* For Genre*/
-Route::get('/genre/all','GenreController@index');
+// Route::get('/genre/all','GenreController@index');
 Route::get('/genre/{name}','GenreController@show');
 
 /* For Publisher*/
-Route::get('/publisher/all','PublisherController@index');
+// Route::get('/publisher/all','PublisherController@index');
 
 Route::get('/search','BookController@search');
 Route::get('/home', 'HomeController@index')->name('home');
@@ -54,6 +58,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	Route::get('/author/edit/{author}','AuthorController@edit');
 	Route::post('/author/update/{author}','AuthorController@update');
 	Route::get('/author/delete/{author}','AuthorController@destroy');
+	Route::get('/author/restore/{author}','AuthorController@restore');
 	Route::get('/author/all','AuthorController@show_all');
 	/*For Publisher*/
 	Route::get('/publisher/edit/{publisher}','PublisherController@edit');

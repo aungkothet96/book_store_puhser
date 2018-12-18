@@ -58,6 +58,24 @@
             </table>
         </div>  
     </div>
+
+    <div class="row mt-2 mb-2 justify-content-center">
+        <div class="col-auto">
+            <h1>Deleted Authors</h1>
+            <table class="table table-hover table-responsive">
+                <thead>
+                    <th>Name</th>
+                    <th>Options</th>
+                </thead>
+                <tr v-for="author in trash_authors">
+                    <td> @{{author.name}}</td>
+                    <td>
+                        <a :href="'{{URL::to('/')}}/admin/author/restore/'+author.id" >Restore </a>
+                    </td>
+                </tr>
+            </table>
+        </div>  
+    </div>
 </div>
 @endsection
 @section('scripts')
@@ -66,6 +84,7 @@
         el:'#author_app',
         data:{
             authors : {},
+            trash_authors : {},
             name_box :''
         },
         methods: {
@@ -74,6 +93,15 @@
                 .then((response) =>{
                     this.authors = response.data;
 
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+            getTrashAuthors(){
+                axios.get(app_url+`/api/author/get_trash`)
+                .then((response) =>{
+                    this.trash_authors = response.data
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -108,7 +136,9 @@
         mounted (){
 
             this.getAuthors();
+            this.getTrashAuthors();
             this.listen();
+
         }
     })
 </script>
