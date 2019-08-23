@@ -14255,10 +14255,10 @@ if (token) {
 window.Pusher = __webpack_require__(36);
 
 window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo__["a" /* default */]({
-  authEndpoint: Object({"NODE_ENV":"development"}).MIX_AUTH_END_POINT,
+  authEndpoint: Object({"MIX_PUSHER_APP_KEY":"","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}).MIX_AUTH_END_POINT,
   broadcaster: 'pusher',
-  key: Object({"NODE_ENV":"development"}).MIX_PUSHER_APP_KEY,
-  cluster: Object({"NODE_ENV":"development"}).MIX_PUSHER_APP_CLUSTER,
+  key: "",
+  cluster: "mt1",
   encrypted: true
 });
 
