@@ -21,3 +21,33 @@ $factory->define(App\User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Author::class, function (Faker $faker) {
+    return [
+        'name' => $faker->name,
+    ];
+});
+
+$factory->define(App\Genre::class, function (Faker $faker) {
+    return [
+        'name' => $faker->name,
+    ];
+});
+
+$factory->define(App\Publisher::class, function (Faker $faker) {
+    return [
+        'name' => $faker->name,
+    ];
+});
+
+$factory->define(App\Book::class, function (Faker $faker) {
+    return [
+        'name' => $faker->sentence($nbWords = 6, $variableNbWords = true),
+        'description' => $faker->text(400),
+        'price' => $faker->randomNumber(2),
+        'published_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
+        'author_id' => App\Author::all()->random()->id,
+        'genre_id' => App\Genre::all()->random()->id,
+        'publisher_id' => App\Publisher::all()->random()->id,
+    ];
+});

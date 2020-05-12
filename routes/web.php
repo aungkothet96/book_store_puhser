@@ -9,11 +9,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/tester',function ()
-{
-	$a = \App\Book::with('authors')->where('id',1)->get();
-	return $a;
-});
 Route::get('/', function () {
     return view('welcome');
 });
@@ -37,7 +32,8 @@ Route::get('/genre/{name}','GenreController@show');
 /* For Publisher*/
 // Route::get('/publisher/all','PublisherController@index');
 
-Route::get('/search','BookController@search');
+// Route::get('/search','BookController@search');
+Route::get('/search','BookController@searchByScout');
 Route::get('/home', 'HomeController@index')->name('home');
 
 /*for admin */

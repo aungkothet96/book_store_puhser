@@ -255,6 +255,14 @@ class BookController extends Controller
 
     }
 
+    public function searchByScout(Request $request)
+    {
+        $result = Book::search($request['query'])->get();
+        return view('book.search_result', ['books' => $result]);
+    }
+
+
+
     public function find_by_name($name)
     {
        $id = Book::where('name','like', "%{$name}%")->pluck('id')->toArray();
