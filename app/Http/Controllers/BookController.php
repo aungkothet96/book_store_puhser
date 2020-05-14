@@ -98,7 +98,7 @@ class BookController extends Controller
         $name = str_replace("_", " ", $name);
         $id = $this->find_by_name($name);
         if (!empty($id)) {
-            $book = Book::with('authors','genres')->where('id',$id[0])->first()->toJson();
+            $book = Book::with('authors','genres','publishers')->where('id',$id[0])->first()->toJson();
             return view('book.detail',[ 'book' => $book]);
         } else {
             return redirect()->back();
@@ -197,7 +197,7 @@ class BookController extends Controller
         $book->save();
         return Storage::download($book->pdf_name,$book->name.'.pdf');
     }
-
+/* out of date search method
     public function search(Request $request)
     {
         $booksByAuthor = Author::with('books')->where('name','like','%'.$request['query']."%")->get()->toArray();
@@ -254,10 +254,10 @@ class BookController extends Controller
         return view('book.search_result', ['books' => $resultBooks]);
 
     }
-
+*/
     public function searchByScout(Request $request)
     {
-        $result = Book::search($request['query'])->get();
+        $result = Book::search($request['query'])->paginate(15);
         return view('book.search_result', ['books' => $result]);
     }
 

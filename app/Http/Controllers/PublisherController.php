@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Publisher;
+use App\Book;
 use Illuminate\Http\Request;
 use App\Events\RefershPublisher;
 
@@ -16,7 +17,8 @@ class PublisherController extends Controller
     public function index()
     {
         $publishers = Publisher::latest()->get();
-        return view('publisher.show',['publishers' => $publishers]);
+        $books = Book::paginate(9);
+        return view('publisher.all',['publishers' => $publishers, 'books' => $books, 'title' => "Total"]);
     }
 
     /**

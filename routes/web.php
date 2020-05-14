@@ -22,15 +22,15 @@ Route::get('/book/detail/{name}','BookController@show');
 Route::post('/book/download/{id}','BookController@download');
 
 /* For Author */
-// Route::get('/author/all','AuthorController@index');
+Route::get('/author/all','AuthorController@index');
 Route::get('/author/{name}','AuthorController@show');
 
 /* For Genre*/
-// Route::get('/genre/all','GenreController@index');
+Route::get('/genre/all','GenreController@index');
 Route::get('/genre/{name}','GenreController@show');
 
 /* For Publisher*/
-// Route::get('/publisher/all','PublisherController@index');
+Route::get('/publisher/all','PublisherController@index');
 
 // Route::get('/search','BookController@search');
 Route::get('/search','BookController@searchByScout');

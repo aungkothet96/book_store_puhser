@@ -16,8 +16,8 @@ class GenreController extends Controller
      */
     public function index()
     {
-       $genres = Genre::latest()->get();
-        $books = Book::with('genres','genres')->paginate(9);
+        $genres = Genre::latest()->get();
+        $books = Book::paginate(9);
         return view('genre.all_genre',['genres' => $genres, 'books' => $books, 'title' => "Total"]);
     }
 

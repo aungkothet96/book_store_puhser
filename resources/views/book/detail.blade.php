@@ -27,6 +27,10 @@
 							<td>:  <a  :href="'{{URL::to('/')}}/author/'+book.authors.name.split(' ').join('_').toLowerCase()" target="_blank">  @{{ book.authors.name}} </a></td>
 						</tr>
 						<tr>
+							<th>Publisher</th>
+							<td>:  <a  :href="'{{URL::to('/')}}/publisher/'+book.authors.name.split(' ').join('_').toLowerCase()" target="_blank">  @{{ book.publishers.name}} </a></td>
+						</tr>
+						<tr>
 							<th>Price</th>
 							<td>: $@{{ book.price}} </td>
 						</tr>
